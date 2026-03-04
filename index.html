@@ -1,101 +1,726 @@
-<script>
+<p><meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></p>
+<style>
+/* ════════════════════════════════════════
+   VARIABLES
+════════════════════════════════════════ */
+:root{
+  --white:#FFFFFF;
+  --off:#F7F5F1;
+  --light:#EEEBE5;
+  --border:#E0DCD5;
+  --border2:#C8C4BC;
+  --muted:#9A9690;
+  --mid:#5A5754;
+  --dark:#2A2826;
+  --black:#0C0B0A;
+  --pad:clamp(20px,5vw,64px);
+}
 
-document.addEventListener("DOMContentLoaded", function() {
+/* ════════════════════════════════════════
+   RESET
+════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.65;font-size:16px;}
+img{max-width:100%;}
 
-  /* NAV sticky */
+/* ════════════════════════════════════════
+   CURSOR (desktop only)
+════════════════════════════════════════ */
+@media(pointer:fine){
+  .cur{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;}
+  .cur-dot{width:7px;height:7px;background:var(--black);border-radius:50%;transform:translate(-50%,-50%);}
+  .cur-ring{position:fixed;top:0;left:0;z-index:9998;pointer-events:none;width:38px;height:38px;border:1px solid rgba(0,0,0,.3);border-radius:50%;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s;}
+}
+@media(pointer:coarse){
+  .cur,.cur-ring{display:none;}
+  body{cursor:auto;}
+}
 
-  window.addEventListener("scroll", function(){
-    document.getElementById("nav")
-      .classList.toggle("stuck", window.scrollY > 50);
-  });
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--pad);
+  transition:all .35s;
+}
+nav.stuck{
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:12px var(--pad);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;
+  letter-spacing:3px;color:var(--black);text-decoration:none;
+  flex-shrink:0;
+}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--black);}
+.nav-cta{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;background:var(--black);color:var(--white);
+  padding:10px 20px;text-decoration:none;transition:background .2s;
+  white-space:nowrap;
+}
+.nav-cta:hover{background:var(--dark);}
 
+/* Hamburger */
+.nav-burger{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:36px;height:36px;cursor:pointer;background:none;border:none;padding:4px;
+}
+.nav-burger span{display:block;height:2px;background:var(--black);transition:all .3s;}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-burger.open span:nth-child(2){opacity:0;}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
-  /* MENU MOBILE */
+/* Mobile menu */
+.nav-mobile{
+  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:var(--black);z-index:290;flex-direction:column;
+  justify-content:center;align-items:center;gap:40px;
+}
+.nav-mobile.open{display:flex;}
+.nav-mobile a{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,52px);
+  letter-spacing:3px;color:rgba(255,255,255,.85);text-decoration:none;
+  transition:color .2s;
+}
+.nav-mobile a:hover{color:var(--white);}
+.nav-mobile-close{
+  position:absolute;top:20px;right:var(--pad);
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,.4);
+  background:none;border:none;cursor:pointer;
+}
 
-  const burger = document.getElementById("burger");
-  const mobileMenu = document.getElementById("mobileMenu");
-  const closeBtn = document.getElementById("menuClose");
+/* Show/hide nav elements */
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none;}
+  .nav-burger{display:flex;}
+}
 
-  if(burger){
-    burger.addEventListener("click", function(){
-      burger.classList.toggle("open");
-      mobileMenu.classList.toggle("open");
-    });
-  }
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+.hero{
+  min-height:100vh;background:var(--off);
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:end;
+  padding:clamp(100px,15vh,140px) var(--pad) clamp(60px,8vh,90px);
+  gap:clamp(32px,5vw,60px);
+  position:relative;overflow:hidden;
+}
+.hero-wm{
+  position:absolute;bottom:-60px;right:-20px;
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,25vw,300px);
+  line-height:1;color:rgba(0,0,0,0.035);user-select:none;
+  letter-spacing:-8px;pointer-events:none;
+}
+.hero-tag{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--muted);
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.hero-tag::before{content:'';width:24px;height:1px;background:var(--muted);}
+.hero-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(60px,10vw,130px);
+  line-height:.88;letter-spacing:-2px;color:var(--black);margin-bottom:18px;
+}
+.hero-name .dim{color:var(--muted);}
+.hero-role{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--mid);
+  padding:12px 16px;border:1px solid var(--border);
+  display:inline-block;margin-bottom:28px;line-height:1.6;
+}
+.hero-summary{
+  font-size:15px;line-height:1.8;color:var(--mid);
+  font-weight:300;max-width:520px;margin-bottom:32px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-blk{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;background:var(--black);color:var(--white);
+  padding:13px 24px;text-decoration:none;transition:all .2s;display:inline-block;
+}
+.btn-blk:hover{background:var(--dark);}
+.btn-line{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;border:1px solid var(--border2);color:var(--black);
+  padding:13px 24px;text-decoration:none;transition:all .2s;display:inline-block;
+}
+.btn-line:hover{border-color:var(--dark);}
 
-  if(closeBtn){
-    closeBtn.addEventListener("click", function(){
-      burger.classList.remove("open");
-      mobileMenu.classList.remove("open");
-    });
-  }
+.hero-right{display:flex;flex-direction:column;gap:20px;}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.kpi{
+  padding:22px 18px;border:1px solid var(--border);
+  background:var(--white);transition:border-color .2s,transform .2s;
+}
+.kpi:hover{border-color:var(--black);transform:translateY(-2px);}
+.kpi-n{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,54px);
+  line-height:1;color:var(--black);
+}
+.kpi-l{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-top:6px;line-height:1.5;
+}
+.lang-bars{display:flex;flex-direction:column;gap:14px;}
+.lang-row{display:flex;align-items:center;gap:14px;}
+.lang-name{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--mid);min-width:90px;
+}
+.lang-bar-bg{flex:1;height:2px;background:var(--border);}
+.lang-bar-fill{height:100%;background:var(--black);width:0%;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+.lang-pct{
+  font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);
+  min-width:40px;text-align:right;
+}
 
-  document.querySelectorAll(".nav-mobile a").forEach(link=>{
-    link.addEventListener("click", ()=>{
-      mobileMenu.classList.remove("open");
-      burger.classList.remove("open");
-    });
-  });
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:100px;}
+  .hero-right{margin-top:32px;}
+  .hero-wm{display:none;}
+}
 
+/* ════════════════════════════════════════
+   TICKER
+════════════════════════════════════════ */
+.ticker{overflow:hidden;background:var(--black);padding:16px 0;}
+.ticker-track{
+  display:flex;gap:50px;white-space:nowrap;
+  animation:tick 22s linear infinite;
+}
+.t-item{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,.45);flex-shrink:0;
+}
+.t-sep{color:rgba(255,255,255,.15);}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-  /* ANIMATION BARRES LANGUES */
+/* ════════════════════════════════════════
+   SECTIONS SHARED
+════════════════════════════════════════ */
+.sw{padding:clamp(60px,8vw,100px) var(--pad);}
+.sw.alt{background:var(--off);}
+.sw.dk{background:var(--black);}
 
-  const bars = document.querySelectorAll(".lang-bar-fill");
+.slabel{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--muted);
+  display:flex;align-items:center;gap:12px;margin-bottom:12px;
+}
+.slabel::before{content:'';width:22px;height:1px;background:var(--muted);}
+.slabel.lt{color:rgba(255,255,255,.6);}
+.slabel.lt::before{background:rgba(255,255,255,.6);}
 
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const w = entry.target.getAttribute("data-w");
-        entry.target.style.width = w + "%";
-      }
-    });
-  },{threshold:.4});
+.stitle{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(36px,6vw,76px);line-height:.9;color:var(--black);
+}
+.stitle .ghost{-webkit-text-stroke:1.5px var(--border2);color:transparent;}
+.stitle.wh{color:var(--white);}
+.stitle.wh .ghost{-webkit-text-stroke:1.5px rgba(255,255,255,.25);color:transparent;}
 
-  bars.forEach(b=>obs.observe(b));
+/* ════════════════════════════════════════
+   COMPÉTENCES
+════════════════════════════════════════ */
+.skills-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:2px;margin-top:48px;
+}
+.sk-block{
+  background:var(--white);border:1px solid var(--border);
+  padding:clamp(24px,4vw,40px) clamp(20px,3vw,36px);
+  transition:border-color .2s,background .2s;
+}
+.sk-block:hover{border-color:var(--black);background:var(--off);}
+.sk-icon{font-size:22px;margin-bottom:14px;}
+.sk-title{font-size:17px;font-weight:600;color:var(--black);margin-bottom:12px;line-height:1.3;}
+.sk-tags{display:flex;flex-wrap:wrap;gap:7px;}
+.sk-tag{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;padding:5px 10px;
+  border:1px solid var(--border);color:var(--mid);
+}
 
+@media(max-width:600px){
+  .skills-grid{grid-template-columns:1fr;}
+}
 
-  /* KPI COUNTERS */
+/* ════════════════════════════════════════
+   EXPÉRIENCES
+════════════════════════════════════════ */
+.exp-list{margin-top:48px;display:flex;flex-direction:column;}
 
-  function animateValue(el,target,prefix="",suffix=""){
-    let start=0;
-    const duration=1400;
+.exp-item{
+  display:grid;grid-template-columns:220px 1fr;
+  border-top:1px solid var(--border);
+  padding:clamp(32px,5vw,52px) 0;
+  transition:padding-left .3s;cursor:default;
+}
+.exp-item:last-child{border-bottom:1px solid var(--border);}
+.exp-item:hover{padding-left:6px;}
 
-    const step = timestamp=>{
-      if(!start) start=timestamp;
+.exp-meta{}
+.exp-period{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+}
+.exp-company{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;
+  letter-spacing:1px;color:var(--black);margin-bottom:4px;line-height:1;
+}
+.exp-sector{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;color:var(--border2);
+}
 
-      const progress=Math.min((timestamp-start)/duration,1);
-      const value=Math.floor(progress*target);
+.exp-content{padding-left:40px;}
+.exp-role{font-size:17px;font-weight:600;color:var(--black);margin-bottom:16px;line-height:1.35;}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px;}
+.exp-bullets li{
+  font-size:14px;line-height:1.72;color:var(--mid);
+  font-weight:300;padding-left:18px;position:relative;
+}
+.exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--border2);}
+.exp-result{
+  background:var(--off);border-left:2px solid var(--black);
+  padding:13px 16px;font-size:13px;line-height:1.65;color:var(--mid);
+}
+.exp-result strong{color:var(--black);font-weight:600;}
 
-      el.textContent = prefix + value + suffix;
+@media(max-width:700px){
+  .exp-item{grid-template-columns:1fr;}
+  .exp-item:hover{padding-left:0;}
+  .exp-content{padding-left:0;padding-top:16px;}
+  .exp-company{font-size:24px;}
+}
 
-      if(progress<1){
-        requestAnimationFrame(step);
-      }
-    };
+/* ════════════════════════════════════════
+   FORMATION
+════════════════════════════════════════ */
+.edu-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.08);margin-top:48px;
+}
+.edu-item{background:var(--black);padding:clamp(28px,4vw,48px) clamp(20px,3vw,36px);transition:background .2s;}
+.edu-item:hover{background:#141210;}
+.edu-year{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  color:rgba(255,255,255,.65);margin-bottom:14px;
+}
+.edu-school{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2.5vw,26px);
+  letter-spacing:1px;color:var(--white);margin-bottom:10px;line-height:1.1;
+}
+.edu-degree{font-size:14px;line-height:1.7;color:rgba(255,255,255,.78);font-weight:300;}
 
-    requestAnimationFrame(step);
-  }
+@media(max-width:700px){
+  .edu-grid{grid-template-columns:1fr;}
+}
 
-  const kpis = document.querySelectorAll(".kpi-n");
+/* ════════════════════════════════════════
+   OUTILS
+════════════════════════════════════════ */
+.tools-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px;}
+.tool{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;padding:12px 20px;
+  border:1px solid var(--border);color:var(--mid);transition:all .2s;
+}
+.tool:hover{border-color:var(--black);color:var(--black);background:var(--off);}
 
-  const kpiObserver = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
+/* ════════════════════════════════════════
+   CENTRES D'INTÉRÊT
+════════════════════════════════════════ */
+.interests-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.08);margin-top:48px;
+}
+.interest-item{
+  background:var(--black);padding:clamp(28px,4vw,44px) clamp(20px,3vw,36px);
+  display:flex;align-items:center;gap:18px;transition:background .2s;
+}
+.interest-item:hover{background:#141210;}
+.int-icon{font-size:clamp(24px,4vw,32px);flex-shrink:0;}
+.int-label{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(20px,3vw,28px);letter-spacing:2px;color:var(--white);
+}
 
-        const el = entry.target;
-        const target = el.dataset.target;
-        const prefix = el.dataset.prefix || "";
-        const suffix = el.dataset.suffix || "";
+@media(max-width:600px){
+  .interests-grid{grid-template-columns:1fr;}
+}
 
-        animateValue(el,target,prefix,suffix);
+/* ════════════════════════════════════════
+   CONTACT BAND
+════════════════════════════════════════ */
+.cband{
+  background:var(--black);
+  padding:clamp(60px,8vw,100px) var(--pad);
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(32px,5vw,60px);align-items:center;
+}
+.cband-tag{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;
+}
+.cband-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(44px,7vw,84px);line-height:.9;color:var(--white);
+}
+.cband-title span{color:rgba(255,255,255,.28);}
+.cband-rows{display:flex;flex-direction:column;}
+.cband-row{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:15px 0;border-bottom:1px solid rgba(255,255,255,.1);
+}
+.cband-row:last-child{border-bottom:none;}
+.cband-key{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,255,255,.45);
+  min-width:80px;padding-top:3px;flex-shrink:0;
+}
+.cband-val{
+  font-size:15px;color:rgba(255,255,255,.9);
+  text-decoration:none;transition:color .2s;word-break:break-all;
+}
+.cband-val:hover{color:var(--white);}
 
-        kpiObserver.unobserve(el);
-      }
-    });
-  },{threshold:.6});
+@media(max-width:700px){
+  .cband{grid-template-columns:1fr;}
+}
 
-  kpis.forEach(k=>kpiObserver.observe(k));
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+footer{
+  padding:clamp(28px,4vw,44px) var(--pad);
+  background:var(--off);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.f-logo{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;
+  letter-spacing:3px;color:var(--black);
+}
+.f-copy{
+  font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:2px;color:var(--muted);text-transform:uppercase;
+}
+.f-links{display:flex;gap:20px;flex-wrap:wrap;}
+.f-links a{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;
+}
+.f-links a:hover{color:var(--black);}
 
-});
-
-</script>
+@media(max-width:500px){
+  footer{flex-direction:column;align-items:flex-start;}
+  .f-copy{display:none;}
+}
+</style>
+<!-- Cursor (desktop) -->
+<div id="cur" class="cur">
+<div class="cur-dot"><br></div>
+</div>
+<div id="ring" class="cur-ring"></div>
+<!-- Mobile menu -->
+<div id="mobileMenu" class="nav-mobile"><button id="menuClose" class="nav-mobile-close">✕ Fermer</button> <a href="#competences">Compétences</a> <a href="#experiences">Expériences</a> <a href="#formation">Formation</a> <a href="#outils">Outils</a> <a href="#contact">Contact</a> <a href="mailto:terence.richard75@gmail.com">📧 M'écrire</a> <a href="tel:+33658841085">📞 Appeler</a></div>
+<!-- NAV --><nav id="nav"><br>
+<ul class="nav-links">
+<li><a href="#competences">Compétences</a></li>
+<li><a href="#experiences">Expériences</a></li>
+<li><a href="#formation">Formation</a></li>
+<li><a href="#outils">Outils</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+<a class="nav-cta" href="mailto:terence.richard75@gmail.com">Me contacter</a> <button aria-label="Menu" id="burger" class="nav-burger"> <span></span><span></span><span></span> </button></nav><!-- ── HERO ───────────────────────────── -->
+<section class="hero">
+<div class="hero-wm">TR</div>
+<div>
+<div class="hero-tag">CV — 2025</div>
+<h1 class="hero-name">TERENCE<br><span class="dim">RICHARD</span></h1>
+<div class="hero-role">Directeur Commercial<br>Développement Réseau &amp; Marché Pro Mobilier &amp; Aménagement</div>
+<p class="hero-summary">Dirigeant Commercial B2B avec plus de 15 ans d'expérience en développement de marchés et structuration d'organisations commerciales, dont 5 années dans le secteur du mobilier et de l'aménagement professionnel. Expert en développement et animation de réseaux prescripteurs (architectes, décorateurs, fabricants), gestion de comptes stratégiques et pilotage P&amp;L en environnement national et international. Reconnu pour combiner vision stratégique, rigueur financière et capacité d'exécution opérationnelle.</p>
+<div class="hero-actions"><a class="btn-blk" href="mailto:terence.richard75@gmail.com">terence.richard75@gmail.com</a> <a class="btn-line" href="tel:+33658841085">+33 6 58 84 10 85</a></div>
+</div>
+<div class="hero-right">
+<div class="kpi-grid">
+<div class="kpi">
+<div data-suffix="+" data-target="15" class="kpi-n">15+</div>
+<div class="kpi-l">Années expérience B2B</div>
+</div>
+<div class="kpi">
+<div data-suffix="+" data-target="700" class="kpi-n">700+</div>
+<div class="kpi-l">Prescripteurs recrutés</div>
+</div>
+<div class="kpi">
+<div data-target="3" data-prefix="×" class="kpi-n">×3</div>
+<div class="kpi-l">CA multiplié Exta Archis</div>
+</div>
+<div class="kpi">
+<div data-suffix="%" data-target="98" class="kpi-n">98%</div>
+<div class="kpi-l">Rétention client BCD Travel</div>
+</div>
+</div>
+<div class="lang-bars">
+<div class="lang-row"><span class="lang-name">Français</span>
+<div class="lang-bar-bg">
+<div data-w="100" class="lang-bar-fill"><br></div>
+</div>
+<span class="lang-pct">Natif</span></div>
+<div class="lang-row"><span class="lang-name">Anglais</span>
+<div class="lang-bar-bg">
+<div data-w="85" class="lang-bar-fill"><br></div>
+</div>
+<span class="lang-pct">Professionnel</span></div>
+<div class="lang-row"><span class="lang-name">Allemand</span>
+<div class="lang-bar-bg">
+<div data-w="75" class="lang-bar-fill"><br></div>
+</div>
+<span class="lang-pct">Courant</span></div>
+</div>
+</div>
+</section>
+<!-- TICKER -->
+<div class="ticker">
+<div class="ticker-track"><span class="t-item">DÉVELOPPEMENT RÉSEAU</span><span class="t-sep"> — </span> <span class="t-item">GRANDS COMPTES</span><span class="t-sep"> — </span> <span class="t-item">P&amp;L MANAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">LEADERSHIP COMMERCIAL</span><span class="t-sep"> — </span> <span class="t-item">MOBILIER &amp; AMÉNAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">VENTE EN MODE PROJET</span><span class="t-sep"> — </span> <span class="t-item">DÉVELOPPEMENT RÉSEAU</span><span class="t-sep"> — </span> <span class="t-item">GRANDS COMPTES</span><span class="t-sep"> — </span> <span class="t-item">P&amp;L MANAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">LEADERSHIP COMMERCIAL</span><span class="t-sep"> — </span> <span class="t-item">MOBILIER &amp; AMÉNAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">VENTE EN MODE PROJET</span><span class="t-sep"> — </span></div>
+</div>
+<!-- ── COMPÉTENCES ─────────────────────── -->
+<section id="competences" class="sw">
+<div class="slabel">Domaines d'expertise</div>
+<h2 class="stitle">COMPÉTENCES<br><span class="ghost">CLÉS</span></h2>
+<div class="skills-grid">
+<div class="sk-block">
+<div class="sk-title">Développement de réseaux &amp; canal professionnel</div>
+<div class="sk-tags"><span class="sk-tag">Réseaux prescripteurs</span> <span class="sk-tag">Partenaires distributeurs</span> <span class="sk-tag">Expansion territoriale</span> <span class="sk-tag">Coordination internationale</span> <span class="sk-tag">Vente en mode projet</span> <span class="sk-tag">Aménagement tertiaire</span> <span class="sk-tag">Mobilier collaboratif</span></div>
+</div>
+<div class="sk-block">
+<div class="sk-title">Grands comptes &amp; stratégie commerciale</div>
+<div class="sk-tags"><span class="sk-tag">KAM national &amp; international</span> <span class="sk-tag">Négociation C-level</span> <span class="sk-tag">Appels d'offres complexes</span> <span class="sk-tag">Nouveaux segments</span> <span class="sk-tag">Positionnement premium</span> <span class="sk-tag">Croissance rentable</span></div>
+</div>
+<div class="sk-block">
+<div class="sk-title">Pilotage performance &amp; gouvernance</div>
+<div class="sk-tags"><span class="sk-tag">P&amp;L complet</span> <span class="sk-tag">Marges &amp; EBITDA</span> <span class="sk-tag">Pipeline &amp; forecast</span> <span class="sk-tag">KPI &amp; reporting</span> <span class="sk-tag">CRM &amp; process</span> <span class="sk-tag">Coordination transverse</span></div>
+</div>
+<div class="sk-block">
+<div class="sk-title">Leadership &amp; organisation</div>
+<div class="sk-tags"><span class="sk-tag">Direction d'équipes</span> <span class="sk-tag">Recrutement &amp; talents</span> <span class="sk-tag">Culture de performance</span> <span class="sk-tag">Management multi-interlocuteurs</span> <span class="sk-tag">Coordination internationale</span></div>
+</div>
+</div>
+</section>
+<!-- ── EXPÉRIENCES ────────────────────── -->
+<section id="experiences" class="sw alt">
+<div class="slabel">Parcours professionnel</div>
+<h2 class="stitle">EXPÉRIENCES<br><span class="ghost">PROFESSIONNELLES</span></h2>
+<div class="exp-list">
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">2021 — Aujourd'hui</div>
+<div class="exp-company">EXTA ARCHIS</div>
+<div class="exp-sector">Distribution de Mobilier</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Fondateur &amp; Directeur Général — France</div>
+<ul class="exp-bullets">
+<li>Définition de la stratégie commerciale nationale et du positionnement B2B</li>
+<li>Prospection et développement d'un réseau de plus de 700 architectes et décorateurs d'intérieur, structuré comme canal indirect commissionné</li>
+<li>Développement et management d'un écosystème de 130 partenaires fournisseurs européens</li>
+<li>Mise en place d'une gouvernance commerciale structurée : CRM, segmentation réseau, pilotage du pipeline, forecast et KPI</li>
+<li>Coordination omnicanale entre partenaires, prescripteurs et fonctions support</li>
+<li>Optimisation du positionnement produit et de la stratégie tarifaire</li>
+<li>Responsabilité complète du P&amp;L et pilotage de la rentabilité</li>
+</ul>
+<div class="exp-result"><strong>Résultats :</strong> Transformation réussie B2C → B2B • <strong>700+ prescripteurs</strong> inscrits • Solution B2B premium clé en main • CA <strong>×3</strong> • Marge brute <strong>+26%</strong></div>
+</div>
+</div>
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">2018 — 2020</div>
+<div class="exp-company">WORKFORCE LOGIQ</div>
+<div class="exp-sector">VMS &amp; MSP Solution</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Directeur Commercial — France</div>
+<ul class="exp-bullets">
+<li>Déploiement stratégique de l'offre sur le marché français</li>
+<li>Ciblage et développement de comptes stratégiques (CAC 40 / SBF 250)</li>
+<li>Pilotage de cycles de vente complexes multi-décideurs</li>
+<li>Négociation contractuelle et structuration financière des deals</li>
+<li>Reporting et projections de performance auprès du management international</li>
+</ul>
+<div class="exp-result"><strong>Résultats :</strong> Contrat stratégique signé à <strong>15 M€</strong> • EBITDA projeté : <strong>500 K€</strong></div>
+</div>
+</div>
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">2016 — 2017</div>
+<div class="exp-company">ELIOR FRANCE</div>
+<div class="exp-sector">Enterprise Catering</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Directeur des Ventes — France / Paris</div>
+<ul class="exp-bullets">
+<li>Management d'une équipe commerciale nationale (4 FTEs)</li>
+<li>Déploiement de la stratégie de développement B2B</li>
+<li>Négociation de comptes stratégiques</li>
+<li>Pilotage de la rentabilité contractuelle</li>
+</ul>
+<div class="exp-result"><strong>Résultats :</strong> <strong>430 K€</strong> de CA signé sur la période</div>
+</div>
+</div>
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">2011 — 2015</div>
+<div class="exp-company">BCD TRAVEL</div>
+<div class="exp-sector">Business Travel</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Directeur de l'Account Management — France / Paris</div>
+<ul class="exp-bullets">
+<li>Direction des équipes commerciales et comptes clés à l'échelle nationale (10 FTEs)</li>
+<li>Responsabilité complète du P&amp;L France</li>
+<li>Pilotage de la stratégie de croissance, rétention et upsell</li>
+<li>Conduite d'appels d'offres nationaux et internationaux</li>
+<li>Reporting auprès de la direction générale</li>
+</ul>
+<div class="exp-result"><strong>Résultats :</strong> +25% de croissance → <strong>300 M€</strong> de volume géré • <strong>98%</strong> de rétention client • +<strong>390 K€</strong> EBITDA</div>
+</div>
+</div>
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">2002 — 2011</div>
+<div class="exp-company">CWT</div>
+<div class="exp-sector">Business Travel</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Directeur Comptes Stratégiques Internationaux (2009–2011)<br>Responsable Comptes Stratégiques (2002–2008)</div>
+<ul class="exp-bullets">
+<li>Gestion de portefeuilles grands comptes nationaux et internationaux</li>
+<li>Définition et mise en œuvre des stratégies globales de comptes pour stimuler une croissance rentable et favoriser la fidélisation long terme</li>
+<li>Responsabilité du P&amp;L global : stratégie tarifaire, optimisation contractuelle et performance des marges</li>
+<li>Management d'équipes internationales jusqu'à 12 ETP répartis sur 13 pays</li>
+<li>Pilotage d'appels d'offres internationaux complexes (RFP) et négociations au niveau exécutif</li>
+<li>Développement et commercialisation de prestations de conseil à forte valeur ajoutée</li>
+</ul>
+<div class="exp-result"><strong>Résultats :</strong> Portefeuilles jusqu'à <strong>100 M€</strong> • Portfolio multinational 13 pays : <strong>36 → 45 M€</strong> • <strong>100%</strong> de rétention client</div>
+</div>
+</div>
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">2000 — 2002</div>
+<div class="exp-company">HAYS DX</div>
+<div class="exp-sector">Livraison Express</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Responsable des Ventes</div>
+<ul class="exp-bullets">
+<li>Développement commercial et gestion du portefeuille clients</li>
+</ul>
+</div>
+</div>
+<div class="exp-item">
+<div class="exp-meta">
+<div class="exp-period">1997 — 2000</div>
+<div class="exp-company">DECATHLON</div>
+<div class="exp-sector">Grande Distribution Sport</div>
+</div>
+<div class="exp-content">
+<div class="exp-role">Chef de Rayon</div>
+<ul class="exp-bullets">
+<li>Management d'un rayon, animation commerciale et gestion des stocks</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- ── FORMATION ──────────────────────── -->
+<section id="formation" class="sw dk">
+<div class="slabel lt">Formation académique</div>
+<h2 class="stitle wh">FORMATION<br><span class="ghost">&amp; DIPLÔMES</span></h2>
+<div class="edu-grid">
+<div class="edu-item">
+<div class="edu-year">2008 — 2010</div>
+<div class="edu-school">ESSEC BUSINESS SCHOOL</div>
+<div class="edu-degree">Executive Master's Degree<br>Strategy &amp; Management of International Business</div>
+</div>
+<div class="edu-item">
+<div class="edu-year">1995 — 1997</div>
+<div class="edu-school">HTW DRESDEN</div>
+<div class="edu-degree">Diplom Kaufmann — International Business Studies<br>Programme Erasmus</div>
+</div>
+<div class="edu-item">
+<div class="edu-year">1992 — 1997</div>
+<div class="edu-school">UNIVERSITÉ LE HAVRE NORMANDIE</div>
+<div class="edu-degree">Maîtrise — International Business Studies</div>
+</div>
+</div>
+</section>
+<!-- ── OUTILS ─────────────────────────── -->
+<section id="outils" class="sw">
+<div class="slabel">Informatique &amp; outils</div>
+<h2 class="stitle">STACK &amp;<br><span class="ghost">OUTILS</span></h2>
+<div class="tools-row">
+<div class="tool">Pack Office</div>
+<div class="tool">Google Suite</div>
+<div class="tool">Airtable</div>
+<div class="tool">Notion</div>
+<div class="tool">Shopify</div>
+<div class="tool">LinkedIn Automation</div>
+<div class="tool">ChatGPT &amp; IA Générative</div>
+</div>
+</section>
+<!-- ── CENTRES D'INTÉRÊT ──────────────── -->
+<section class="sw dk">
+<div class="slabel lt">Centres d'intérêt</div>
+<h2 class="stitle wh">PASSIONS &amp;<br><span class="ghost">LOISIRS</span></h2>
+<div class="interests-grid">
+<div class="interest-item">
+<div class="int-icon">📷</div>
+<div class="int-label">PHOTOGRAPHIE</div>
+</div>
+<div class="interest-item">
+<div class="int-icon">🔨</div>
+<div class="int-label">BRICOLAGE</div>
+</div>
+<div class="interest-item">
+<div class="int-icon">🏃</div>
+<div class="int-label">RUNNING</div>
+</div>
+</div>
+</section>
+<!-- ── CONTACT ────────────────────────── -->
+<div id="contact" class="cband">
+<div>
+<div class="cband-tag">Disponible pour un entretien</div>
+<h2 class="cband-title">TRAVAILLONS<br><span>ENSEMBLE</span></h2>
+</div>
+<div class="cband-rows">
+<div class="cband-row"><span class="cband-key">Téléphone</span><a class="cband-val" href="tel:+33658841085">+33 6 58 84 10 85</a></div>
+<div class="cband-row"><span class="cband-key">Email</span><a class="cband-val" href="mailto:terence.richard75@gmail.com">terence.richard75@gmail.com</a></div>
+<div class="cband-row"><span class="cband-key">LinkedIn</span><a class="cband-val" href="https://linkedin.com/in/terencerichard" target="_blank">linkedin.com/in/terencerichard</a></div>
+<div class="cband-row"><span class="cband-key">Localisation</span><span class="cband-val">Paris, France</span></div>
+</div>
+</div>
+<!-- FOOTER --><footer>
+<div class="f-logo">TERENCE RICHARD</div>
+<div class="f-copy">© 2025</div>
+<div class="f-links"><a href="mailto:terence.richard75@gmail.com">Email</a> <a href="tel:+33658841085">Téléphone</a> <a href="https://linkedin.com/in/terencerichard" target="_blank">LinkedIn</a></div>
+</footer>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
