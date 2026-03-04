@@ -1,726 +1,1068 @@
-<p><meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terence Richard — Directeur Commercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+     ██████╗ ██████╗ ███╗   ██╗████████╗███████╗███╗   ██╗██╗   ██╗
+     CONTENU — Modifiez uniquement les sections DATA ci-dessous
+     ============================================================ -->
+
 <style>
-/* ════════════════════════════════════════
-   VARIABLES
-════════════════════════════════════════ */
-:root{
-  --white:#FFFFFF;
-  --off:#F7F5F1;
-  --light:#EEEBE5;
-  --border:#E0DCD5;
-  --border2:#C8C4BC;
-  --muted:#9A9690;
-  --mid:#5A5754;
-  --dark:#2A2826;
-  --black:#0C0B0A;
-  --pad:clamp(20px,5vw,64px);
+/* ============================================================
+   DESIGN SYSTEM — NE PAS MODIFIER
+   ============================================================ */
+:root {
+  /* Palette */
+  --c-white:   #FFFFFF;
+  --c-bg:      #F8F6F3;      /* fond principal légèrement chaud */
+  --c-gray-50: #F0EDE8;      /* gris très clair */
+  --c-gray-200:#E2DDD8;      /* bordures légères */
+  --c-gray-400:#B8B4AE;      /* bordures marquées */
+  --c-gray-500:#9A9690;      /* texte muted */
+  --c-gray-600:#6B6764;      /* texte secondaire */
+  --c-gray-800:#2E2C2A;      /* texte fort */
+  --c-black:   #0F0E0D;      /* noir principal */
+
+  /* Bandeau noir */
+  --c-band-bg: #0F0E0D;
+  --c-band-t1: #FFFFFF;
+  --c-band-t2: rgba(255,255,255,.7);
+  --c-band-t3: rgba(255,255,255,.4);
+  --c-band-border: rgba(255,255,255,.1);
+
+  /* Espacement fluide */
+  --gap:    clamp(16px, 4vw, 48px);
+  --pad-h:  clamp(20px, 6vw, 80px);
+  --pad-v:  clamp(48px, 8vw, 100px);
+
+  /* Typo */
+  --f-display: 'Bebas Neue', sans-serif;
+  --f-body:    'DM Sans', sans-serif;
+  --f-mono:    'DM Mono', monospace;
 }
 
-/* ════════════════════════════════════════
-   RESET
-════════════════════════════════════════ */
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;overflow-x:hidden;line-height:1.65;font-size:16px;}
-img{max-width:100%;}
-
-/* ════════════════════════════════════════
-   CURSOR (desktop only)
-════════════════════════════════════════ */
-@media(pointer:fine){
-  .cur{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;}
-  .cur-dot{width:7px;height:7px;background:var(--black);border-radius:50%;transform:translate(-50%,-50%);}
-  .cur-ring{position:fixed;top:0;left:0;z-index:9998;pointer-events:none;width:38px;height:38px;border:1px solid rgba(0,0,0,.3);border-radius:50%;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s;}
-}
-@media(pointer:coarse){
-  .cur,.cur-ring{display:none;}
-  body{cursor:auto;}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--c-white);
+  color: var(--c-black);
+  font-family: var(--f-body);
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.65;
+  overflow-x: hidden;
 }
 
-/* ════════════════════════════════════════
+/* ── Utilitaires ─────────────────────── */
+.mono { font-family: var(--f-mono); }
+.label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--c-gray-500);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.label::before { content:''; width:24px; height:1px; background:currentColor; }
+.label.on-dark { color: var(--c-band-t3); }
+
+.section-title {
+  font-family: var(--f-display);
+  font-size: clamp(36px, 6vw, 72px);
+  line-height: .9;
+  color: var(--c-black);
+  margin-bottom: 0;
+}
+.section-title .ghost {
+  -webkit-text-stroke: 1.5px var(--c-gray-400);
+  color: transparent;
+}
+.section-title.on-dark { color: var(--c-band-t1); }
+.section-title.on-dark .ghost { -webkit-text-stroke: 1.5px rgba(255,255,255,.2); }
+
+.btn {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 13px 26px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all .22s;
+  white-space: nowrap;
+}
+.btn-dark { background: var(--c-black); color: var(--c-white); }
+.btn-dark:hover { background: var(--c-gray-800); }
+.btn-outline { border: 1px solid var(--c-gray-400); color: var(--c-black); }
+.btn-outline:hover { border-color: var(--c-black); }
+.btn-white { background: var(--c-white); color: var(--c-black); }
+.btn-white:hover { background: var(--c-gray-50); }
+.btn-outline-white { border: 1px solid var(--c-band-border); color: var(--c-band-t2); }
+.btn-outline-white:hover { border-color: rgba(255,255,255,.4); color: var(--c-band-t1); }
+
+/* ── SECTIONS layout ─────────────────── */
+.section {
+  padding: var(--pad-v) var(--pad-h);
+}
+.section.bg-white  { background: var(--c-white); }
+.section.bg-light  { background: var(--c-bg); }
+.section.bg-gray   { background: var(--c-gray-50); }
+.section.bg-black  { background: var(--c-band-bg); }
+
+.section-head { margin-bottom: clamp(32px, 5vw, 56px); }
+
+/* ============================================================
    NAV
-════════════════════════════════════════ */
-nav{
-  position:fixed;top:0;left:0;width:100%;z-index:300;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px var(--pad);
-  transition:all .35s;
+   ============================================================ */
+#nav {
+  position: fixed; top:0; left:0; width:100%; z-index:500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px var(--pad-h);
+  transition: padding .3s, background .3s, border .3s;
 }
-nav.stuck{
-  background:rgba(255,255,255,.97);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  padding:12px var(--pad);
+#nav.scrolled {
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--c-gray-200);
+  padding: 12px var(--pad-h);
 }
-.nav-logo{
-  font-family:'Bebas Neue',sans-serif;font-size:22px;
-  letter-spacing:3px;color:var(--black);text-decoration:none;
-  flex-shrink:0;
+.nav-logo {
+  font-family: var(--f-display);
+  font-size: 22px; letter-spacing: 3px;
+  color: var(--c-black); text-decoration: none;
 }
-.nav-links{display:flex;gap:28px;list-style:none;}
-.nav-links a{
-  font-family:'DM Mono',monospace;font-size:10px;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--muted);text-decoration:none;transition:color .2s;
+.nav-menu {
+  display: flex; gap: 32px; list-style: none;
 }
-.nav-links a:hover{color:var(--black);}
-.nav-cta{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;background:var(--black);color:var(--white);
-  padding:10px 20px;text-decoration:none;transition:background .2s;
-  white-space:nowrap;
+.nav-menu a {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-gray-500);
+  text-decoration: none; transition: color .2s;
 }
-.nav-cta:hover{background:var(--dark);}
+.nav-menu a:hover { color: var(--c-black); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-burger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.nav-burger span {
+  display: block; width: 26px; height: 2px;
+  background: var(--c-black); transition: all .3s;
+}
+.nav-burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.active span:nth-child(2) { opacity: 0; }
+.nav-burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-/* Hamburger */
-.nav-burger{
-  display:none;flex-direction:column;justify-content:center;gap:5px;
-  width:36px;height:36px;cursor:pointer;background:none;border:none;padding:4px;
+/* Mobile nav overlay */
+#mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 490;
+  background: var(--c-black);
+  flex-direction: column; align-items: center; justify-content: center; gap: 36px;
 }
-.nav-burger span{display:block;height:2px;background:var(--black);transition:all .3s;}
-.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
-.nav-burger.open span:nth-child(2){opacity:0;}
-.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mobile-nav.open { display: flex; }
+#mobile-nav a {
+  font-family: var(--f-display); font-size: clamp(32px, 9vw, 52px);
+  letter-spacing: 3px; color: rgba(255,255,255,.8); text-decoration: none;
+  transition: color .2s;
+}
+#mobile-nav a:hover { color: var(--c-white); }
 
-/* Mobile menu */
-.nav-mobile{
-  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-  background:var(--black);z-index:290;flex-direction:column;
-  justify-content:center;align-items:center;gap:40px;
-}
-.nav-mobile.open{display:flex;}
-.nav-mobile a{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,8vw,52px);
-  letter-spacing:3px;color:rgba(255,255,255,.85);text-decoration:none;
-  transition:color .2s;
-}
-.nav-mobile a:hover{color:var(--white);}
-.nav-mobile-close{
-  position:absolute;top:20px;right:var(--pad);
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(255,255,255,.4);
-  background:none;border:none;cursor:pointer;
+@media (max-width: 900px) {
+  .nav-menu, .nav-right .btn { display: none; }
+  .nav-burger { display: flex; }
 }
 
-/* Show/hide nav elements */
-@media(max-width:900px){
-  .nav-links,.nav-cta{display:none;}
-  .nav-burger{display:flex;}
-}
-
-/* ════════════════════════════════════════
+/* ============================================================
    HERO
-════════════════════════════════════════ */
-.hero{
-  min-height:100vh;background:var(--off);
-  display:grid;grid-template-columns:1fr 1fr;
-  align-items:end;
-  padding:clamp(100px,15vh,140px) var(--pad) clamp(60px,8vh,90px);
-  gap:clamp(32px,5vw,60px);
-  position:relative;overflow:hidden;
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  background: var(--c-bg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+  align-items: end;
+  padding: clamp(90px, 14vh, 140px) var(--pad-h) clamp(48px, 7vh, 80px);
+  position: relative;
+  overflow: hidden;
 }
-.hero-wm{
-  position:absolute;bottom:-60px;right:-20px;
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,25vw,300px);
-  line-height:1;color:rgba(0,0,0,0.035);user-select:none;
-  letter-spacing:-8px;pointer-events:none;
+.hero-watermark {
+  position: absolute;
+  right: -20px; bottom: -80px;
+  font-family: var(--f-display);
+  font-size: clamp(160px, 28vw, 380px);
+  color: rgba(0,0,0,.035);
+  letter-spacing: -10px;
+  line-height: 1;
+  user-select: none; pointer-events: none;
 }
-.hero-tag{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
-  text-transform:uppercase;color:var(--muted);
-  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+.hero-eyebrow {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--c-gray-500);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
 }
-.hero-tag::before{content:'';width:24px;height:1px;background:var(--muted);}
-.hero-name{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(60px,10vw,130px);
-  line-height:.88;letter-spacing:-2px;color:var(--black);margin-bottom:18px;
+.hero-eyebrow::before { content:''; width:24px; height:1px; background: var(--c-gray-500); }
+.hero-name {
+  font-family: var(--f-display);
+  font-size: clamp(56px, 10vw, 128px);
+  line-height: .87; letter-spacing: -2px;
+  color: var(--c-black);
+  margin-bottom: 20px;
 }
-.hero-name .dim{color:var(--muted);}
-.hero-role{
-  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--mid);
-  padding:12px 16px;border:1px solid var(--border);
-  display:inline-block;margin-bottom:28px;line-height:1.6;
+.hero-name .muted { color: var(--c-gray-500); }
+.hero-role {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-gray-600);
+  border: 1px solid var(--c-gray-200);
+  padding: 12px 16px; display: inline-block;
+  line-height: 1.6; margin-bottom: 28px;
 }
-.hero-summary{
-  font-size:15px;line-height:1.8;color:var(--mid);
-  font-weight:300;max-width:520px;margin-bottom:32px;
+.hero-summary {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.8; color: var(--c-gray-600);
+  font-weight: 300; max-width: 540px;
+  margin-bottom: 32px;
 }
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;}
-.btn-blk{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;background:var(--black);color:var(--white);
-  padding:13px 24px;text-decoration:none;transition:all .2s;display:inline-block;
-}
-.btn-blk:hover{background:var(--dark);}
-.btn-line{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;border:1px solid var(--border2);color:var(--black);
-  padding:13px 24px;text-decoration:none;transition:all .2s;display:inline-block;
-}
-.btn-line:hover{border-color:var(--dark);}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 0; }
 
-.hero-right{display:flex;flex-direction:column;gap:20px;}
-.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.kpi{
-  padding:22px 18px;border:1px solid var(--border);
-  background:var(--white);transition:border-color .2s,transform .2s;
+/* KPI + Langues */
+.hero-right { display: flex; flex-direction: column; gap: 20px; }
+.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.kpi-card {
+  background: var(--c-white);
+  border: 1px solid var(--c-gray-200);
+  padding: clamp(16px, 2.5vw, 28px) clamp(14px, 2vw, 22px);
+  transition: border-color .2s, transform .25s;
 }
-.kpi:hover{border-color:var(--black);transform:translateY(-2px);}
-.kpi-n{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,5vw,54px);
-  line-height:1;color:var(--black);
+.kpi-card:hover { border-color: var(--c-black); transform: translateY(-3px); }
+.kpi-number {
+  font-family: var(--f-display);
+  font-size: clamp(38px, 5vw, 56px);
+  line-height: 1; color: var(--c-black);
 }
-.kpi-l{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--muted);margin-top:6px;line-height:1.5;
+.kpi-label {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-gray-500);
+  margin-top: 6px; line-height: 1.5;
 }
-.lang-bars{display:flex;flex-direction:column;gap:14px;}
-.lang-row{display:flex;align-items:center;gap:14px;}
-.lang-name{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--mid);min-width:90px;
+.lang-block { display: flex; flex-direction: column; gap: 13px; }
+.lang-item { display: flex; align-items: center; gap: 12px; }
+.lang-name {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-gray-600);
+  min-width: 88px; flex-shrink: 0;
 }
-.lang-bar-bg{flex:1;height:2px;background:var(--border);}
-.lang-bar-fill{height:100%;background:var(--black);width:0%;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
-.lang-pct{
-  font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);
-  min-width:40px;text-align:right;
+.lang-track { flex: 1; height: 2px; background: var(--c-gray-200); }
+.lang-fill { height: 100%; background: var(--c-black); width: 0; transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+.lang-level {
+  font-family: var(--f-mono); font-size: 9px;
+  color: var(--c-gray-500); min-width: 82px; text-align: right;
 }
 
-@media(max-width:760px){
-  .hero{grid-template-columns:1fr;min-height:auto;padding-top:100px;}
-  .hero-right{margin-top:32px;}
-  .hero-wm{display:none;}
+@media (max-width: 780px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 90px; }
+  .hero-right { margin-top: 36px; }
+  .hero-watermark { display: none; }
 }
 
-/* ════════════════════════════════════════
-   TICKER
-════════════════════════════════════════ */
-.ticker{overflow:hidden;background:var(--black);padding:16px 0;}
-.ticker-track{
-  display:flex;gap:50px;white-space:nowrap;
-  animation:tick 22s linear infinite;
+/* ============================================================
+   TICKER BAND
+   ============================================================ */
+.ticker {
+  overflow: hidden;
+  background: var(--c-black);
+  padding: 15px 0;
+  border-top: 1px solid rgba(255,255,255,.05);
 }
-.t-item{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
-  text-transform:uppercase;color:rgba(255,255,255,.45);flex-shrink:0;
+.ticker-inner {
+  display: flex; gap: 56px; white-space: nowrap;
+  animation: scroll-ticker 24s linear infinite;
 }
-.t-sep{color:rgba(255,255,255,.15);}
-@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ════════════════════════════════════════
-   SECTIONS SHARED
-════════════════════════════════════════ */
-.sw{padding:clamp(60px,8vw,100px) var(--pad);}
-.sw.alt{background:var(--off);}
-.sw.dk{background:var(--black);}
-
-.slabel{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
-  text-transform:uppercase;color:var(--muted);
-  display:flex;align-items:center;gap:12px;margin-bottom:12px;
+.ticker-word {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(255,255,255,.42); flex-shrink: 0;
 }
-.slabel::before{content:'';width:22px;height:1px;background:var(--muted);}
-.slabel.lt{color:rgba(255,255,255,.6);}
-.slabel.lt::before{background:rgba(255,255,255,.6);}
+.ticker-sep { color: rgba(255,255,255,.15); }
+@keyframes scroll-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-.stitle{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(36px,6vw,76px);line-height:.9;color:var(--black);
-}
-.stitle .ghost{-webkit-text-stroke:1.5px var(--border2);color:transparent;}
-.stitle.wh{color:var(--white);}
-.stitle.wh .ghost{-webkit-text-stroke:1.5px rgba(255,255,255,.25);color:transparent;}
-
-/* ════════════════════════════════════════
+/* ============================================================
    COMPÉTENCES
-════════════════════════════════════════ */
-.skills-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:2px;margin-top:48px;
+   ============================================================ */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 2px; margin-top: 0;
+  background: var(--c-gray-200);
 }
-.sk-block{
-  background:var(--white);border:1px solid var(--border);
-  padding:clamp(24px,4vw,40px) clamp(20px,3vw,36px);
-  transition:border-color .2s,background .2s;
+.skill-card {
+  background: var(--c-white);
+  padding: clamp(24px, 3.5vw, 40px) clamp(20px, 3vw, 36px);
+  transition: background .2s, border-color .2s;
 }
-.sk-block:hover{border-color:var(--black);background:var(--off);}
-.sk-icon{font-size:22px;margin-bottom:14px;}
-.sk-title{font-size:17px;font-weight:600;color:var(--black);margin-bottom:12px;line-height:1.3;}
-.sk-tags{display:flex;flex-wrap:wrap;gap:7px;}
-.sk-tag{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
-  text-transform:uppercase;padding:5px 10px;
-  border:1px solid var(--border);color:var(--mid);
+.skill-card:hover { background: var(--c-bg); }
+.skill-icon { font-size: 22px; margin-bottom: 14px; }
+.skill-name {
+  font-size: clamp(15px, 1.6vw, 18px); font-weight: 600;
+  color: var(--c-black); margin-bottom: 14px; line-height: 1.3;
+}
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-tag {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: 1px;
+  text-transform: uppercase; padding: 5px 10px;
+  border: 1px solid var(--c-gray-200); color: var(--c-gray-600);
 }
 
-@media(max-width:600px){
-  .skills-grid{grid-template-columns:1fr;}
-}
+@media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
 
-/* ════════════════════════════════════════
+/* ============================================================
    EXPÉRIENCES
-════════════════════════════════════════ */
-.exp-list{margin-top:48px;display:flex;flex-direction:column;}
+   ============================================================ */
+.exp-list { display: flex; flex-direction: column; }
+.exp-row {
+  display: grid; grid-template-columns: 200px 1fr;
+  border-top: 1px solid var(--c-gray-200);
+  padding: clamp(28px, 4vw, 52px) 0;
+  transition: padding-left .25s;
+}
+.exp-row:last-child { border-bottom: 1px solid var(--c-gray-200); }
+.exp-row:hover { padding-left: 8px; }
 
-.exp-item{
-  display:grid;grid-template-columns:220px 1fr;
-  border-top:1px solid var(--border);
-  padding:clamp(32px,5vw,52px) 0;
-  transition:padding-left .3s;cursor:default;
+.exp-left {}
+.exp-period {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-gray-500); margin-bottom: 8px;
 }
-.exp-item:last-child{border-bottom:1px solid var(--border);}
-.exp-item:hover{padding-left:6px;}
-
-.exp-meta{}
-.exp-period{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--muted);margin-bottom:8px;
+.exp-co {
+  font-family: var(--f-display); font-size: clamp(22px, 3vw, 30px);
+  letter-spacing: 1px; color: var(--c-black);
+  line-height: 1; margin-bottom: 4px;
 }
-.exp-company{
-  font-family:'Bebas Neue',sans-serif;font-size:28px;
-  letter-spacing:1px;color:var(--black);margin-bottom:4px;line-height:1;
-}
-.exp-sector{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;
-  text-transform:uppercase;color:var(--border2);
-}
-
-.exp-content{padding-left:40px;}
-.exp-role{font-size:17px;font-weight:600;color:var(--black);margin-bottom:16px;line-height:1.35;}
-.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px;}
-.exp-bullets li{
-  font-size:14px;line-height:1.72;color:var(--mid);
-  font-weight:300;padding-left:18px;position:relative;
-}
-.exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--border2);}
-.exp-result{
-  background:var(--off);border-left:2px solid var(--black);
-  padding:13px 16px;font-size:13px;line-height:1.65;color:var(--mid);
-}
-.exp-result strong{color:var(--black);font-weight:600;}
-
-@media(max-width:700px){
-  .exp-item{grid-template-columns:1fr;}
-  .exp-item:hover{padding-left:0;}
-  .exp-content{padding-left:0;padding-top:16px;}
-  .exp-company{font-size:24px;}
+.exp-sector {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--c-gray-400);
 }
 
-/* ════════════════════════════════════════
+.exp-right { padding-left: clamp(20px, 4vw, 48px); }
+.exp-role {
+  font-size: clamp(15px, 1.6vw, 17px); font-weight: 600;
+  color: var(--c-black); margin-bottom: 16px; line-height: 1.35;
+}
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+.exp-bullets li {
+  font-size: clamp(13px, 1.4vw, 15px);
+  line-height: 1.72; color: var(--c-gray-600);
+  font-weight: 300; padding-left: 18px; position: relative;
+}
+.exp-bullets li::before { content:'—'; position: absolute; left:0; color: var(--c-gray-400); }
+.exp-result {
+  background: var(--c-bg); border-left: 2px solid var(--c-black);
+  padding: 12px 16px;
+  font-size: clamp(12px, 1.3vw, 14px); line-height: 1.65; color: var(--c-gray-600);
+}
+.exp-result strong { color: var(--c-black); font-weight: 600; }
+
+@media (max-width: 680px) {
+  .exp-row { grid-template-columns: 1fr; }
+  .exp-row:hover { padding-left: 0; }
+  .exp-right { padding-left: 0; padding-top: 14px; }
+}
+
+/* ============================================================
    FORMATION
-════════════════════════════════════════ */
-.edu-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:rgba(255,255,255,.08);margin-top:48px;
+   ============================================================ */
+.edu-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: rgba(255,255,255,.08);
 }
-.edu-item{background:var(--black);padding:clamp(28px,4vw,48px) clamp(20px,3vw,36px);transition:background .2s;}
-.edu-item:hover{background:#141210;}
-.edu-year{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
-  color:rgba(255,255,255,.65);margin-bottom:14px;
+.edu-card {
+  background: var(--c-band-bg);
+  padding: clamp(24px, 3.5vw, 48px) clamp(18px, 2.5vw, 36px);
+  transition: background .2s;
 }
-.edu-school{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2.5vw,26px);
-  letter-spacing:1px;color:var(--white);margin-bottom:10px;line-height:1.1;
+.edu-card:hover { background: #181614; }
+.edu-year {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 3px;
+  color: var(--c-band-t3); margin-bottom: 14px;
 }
-.edu-degree{font-size:14px;line-height:1.7;color:rgba(255,255,255,.78);font-weight:300;}
+.edu-school {
+  font-family: var(--f-display); font-size: clamp(18px, 2.2vw, 26px);
+  letter-spacing: 1px; color: var(--c-band-t1);
+  margin-bottom: 10px; line-height: 1.1;
+}
+.edu-degree {
+  font-size: clamp(13px, 1.4vw, 15px); line-height: 1.7;
+  color: var(--c-band-t2); font-weight: 300;
+}
+@media (max-width: 680px) { .edu-grid { grid-template-columns: 1fr; } }
 
-@media(max-width:700px){
-  .edu-grid{grid-template-columns:1fr;}
-}
-
-/* ════════════════════════════════════════
+/* ============================================================
    OUTILS
-════════════════════════════════════════ */
-.tools-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px;}
-.tool{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
-  text-transform:uppercase;padding:12px 20px;
-  border:1px solid var(--border);color:var(--mid);transition:all .2s;
+   ============================================================ */
+.tools-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+.tool-pill {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; padding: 11px 20px;
+  border: 1px solid var(--c-gray-200); color: var(--c-gray-600);
+  transition: all .2s; cursor: default;
 }
-.tool:hover{border-color:var(--black);color:var(--black);background:var(--off);}
+.tool-pill:hover { border-color: var(--c-black); color: var(--c-black); background: var(--c-bg); }
 
-/* ════════════════════════════════════════
+/* ============================================================
    CENTRES D'INTÉRÊT
-════════════════════════════════════════ */
-.interests-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;background:rgba(255,255,255,.08);margin-top:48px;
+   ============================================================ */
+.interests-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: rgba(255,255,255,.08);
 }
-.interest-item{
-  background:var(--black);padding:clamp(28px,4vw,44px) clamp(20px,3vw,36px);
-  display:flex;align-items:center;gap:18px;transition:background .2s;
+.interest-card {
+  background: var(--c-band-bg);
+  padding: clamp(24px, 3.5vw, 44px) clamp(18px, 2.5vw, 36px);
+  display: flex; align-items: center; gap: 16px;
+  transition: background .2s;
 }
-.interest-item:hover{background:#141210;}
-.int-icon{font-size:clamp(24px,4vw,32px);flex-shrink:0;}
-.int-label{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(20px,3vw,28px);letter-spacing:2px;color:var(--white);
+.interest-card:hover { background: #181614; }
+.interest-icon { font-size: clamp(22px, 3.5vw, 30px); flex-shrink: 0; }
+.interest-name {
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2.8vw, 28px); letter-spacing: 2px;
+  color: var(--c-band-t1);
 }
+@media (max-width: 580px) { .interests-grid { grid-template-columns: 1fr; } }
 
-@media(max-width:600px){
-  .interests-grid{grid-template-columns:1fr;}
-}
-
-/* ════════════════════════════════════════
+/* ============================================================
    CONTACT BAND
-════════════════════════════════════════ */
-.cband{
-  background:var(--black);
-  padding:clamp(60px,8vw,100px) var(--pad);
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:clamp(32px,5vw,60px);align-items:center;
+   ============================================================ */
+.contact-band {
+  background: var(--c-band-bg);
+  padding: var(--pad-v) var(--pad-h);
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap); align-items: center;
 }
-.cband-tag{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;
-  text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;
+.contact-pretitle {
+  font-family: var(--f-mono); font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--c-band-t3); margin-bottom: 14px;
 }
-.cband-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(44px,7vw,84px);line-height:.9;color:var(--white);
+.contact-title {
+  font-family: var(--f-display);
+  font-size: clamp(40px, 7vw, 80px); line-height: .9;
+  color: var(--c-band-t1); margin-bottom: 24px;
 }
-.cband-title span{color:rgba(255,255,255,.28);}
-.cband-rows{display:flex;flex-direction:column;}
-.cband-row{
-  display:flex;align-items:flex-start;gap:16px;
-  padding:15px 0;border-bottom:1px solid rgba(255,255,255,.1);
+.contact-title span { color: var(--c-band-t3); }
+.contact-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.contact-rows { display: flex; flex-direction: column; }
+.contact-row {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 14px 0; border-bottom: 1px solid var(--c-band-border);
 }
-.cband-row:last-child{border-bottom:none;}
-.cband-key{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
-  text-transform:uppercase;color:rgba(255,255,255,.45);
-  min-width:80px;padding-top:3px;flex-shrink:0;
+.contact-row:first-child { border-top: 1px solid var(--c-band-border); }
+.contact-key {
+  font-family: var(--f-mono); font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--c-band-t3);
+  min-width: 80px; flex-shrink: 0; padding-top: 3px;
 }
-.cband-val{
-  font-size:15px;color:rgba(255,255,255,.9);
-  text-decoration:none;transition:color .2s;word-break:break-all;
+.contact-val {
+  font-size: clamp(13px, 1.5vw, 15px); color: var(--c-band-t2);
+  text-decoration: none; transition: color .2s; word-break: break-all;
 }
-.cband-val:hover{color:var(--white);}
+.contact-val:hover { color: var(--c-band-t1); }
+@media (max-width: 680px) {
+  .contact-band { grid-template-columns: 1fr; }
+  .contact-btns { margin-bottom: 0; }
+}
 
-@media(max-width:700px){
-  .cband{grid-template-columns:1fr;}
-}
-
-/* ════════════════════════════════════════
+/* ============================================================
    FOOTER
-════════════════════════════════════════ */
-footer{
-  padding:clamp(28px,4vw,44px) var(--pad);
-  background:var(--off);border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
+   ============================================================ */
+footer {
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-gray-200);
+  padding: clamp(24px, 3.5vw, 40px) var(--pad-h);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
 }
-.f-logo{
-  font-family:'Bebas Neue',sans-serif;font-size:20px;
-  letter-spacing:3px;color:var(--black);
-}
-.f-copy{
-  font-family:'DM Mono',monospace;font-size:9px;
-  letter-spacing:2px;color:var(--muted);text-transform:uppercase;
-}
-.f-links{display:flex;gap:20px;flex-wrap:wrap;}
-.f-links a{
-  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;
-  text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;
-}
-.f-links a:hover{color:var(--black);}
+.footer-logo { font-family: var(--f-display); font-size: 20px; letter-spacing: 3px; color: var(--c-black); }
+.footer-copy { font-family: var(--f-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--c-gray-500); }
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a { font-family: var(--f-mono); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--c-gray-500); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--c-black); }
+@media (max-width: 500px) { .footer-copy { display: none; } }
 
-@media(max-width:500px){
-  footer{flex-direction:column;align-items:flex-start;}
-  .f-copy{display:none;}
+/* ============================================================
+   ANIMATIONS SCROLL
+   ============================================================ */
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
 }
+.reveal.visible { opacity: 1; transform: none; }
 </style>
-<!-- Cursor (desktop) -->
-<div id="cur" class="cur">
-<div class="cur-dot"><br></div>
+</head>
+<body>
+
+<!-- ============================================================
+     MOBILE NAV OVERLAY
+     ============================================================ -->
+<div id="mobile-nav">
+  <a href="#competences" onclick="closeMobileNav()">Compétences</a>
+  <a href="#experiences" onclick="closeMobileNav()">Expériences</a>
+  <a href="#formation"   onclick="closeMobileNav()">Formation</a>
+  <a href="#outils"      onclick="closeMobileNav()">Outils</a>
+  <a href="#contact"     onclick="closeMobileNav()">Contact</a>
 </div>
-<div id="ring" class="cur-ring"></div>
-<!-- Mobile menu -->
-<div id="mobileMenu" class="nav-mobile"><button id="menuClose" class="nav-mobile-close">✕ Fermer</button> <a href="#competences">Compétences</a> <a href="#experiences">Expériences</a> <a href="#formation">Formation</a> <a href="#outils">Outils</a> <a href="#contact">Contact</a> <a href="mailto:terence.richard75@gmail.com">📧 M'écrire</a> <a href="tel:+33658841085">📞 Appeler</a></div>
-<!-- NAV --><nav id="nav"><br>
-<ul class="nav-links">
-<li><a href="#competences">Compétences</a></li>
-<li><a href="#experiences">Expériences</a></li>
-<li><a href="#formation">Formation</a></li>
-<li><a href="#outils">Outils</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-<a class="nav-cta" href="mailto:terence.richard75@gmail.com">Me contacter</a> <button aria-label="Menu" id="burger" class="nav-burger"> <span></span><span></span><span></span> </button></nav><!-- ── HERO ───────────────────────────── -->
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav id="nav">
+  <a href="#" class="nav-logo">T. RICHARD</a>
+  <ul class="nav-menu">
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#experiences">Expériences</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#outils">Outils</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="mailto:terence.richard75@gmail.com" class="btn btn-dark">Me contacter</a>
+    <button class="nav-burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     ██╗  ██╗███████╗██████╗  ██████╗
+     SECTION : HERO  — Modifiez ici
+     ============================================================ -->
 <section class="hero">
-<div class="hero-wm">TR</div>
-<div>
-<div class="hero-tag">CV — 2025</div>
-<h1 class="hero-name">TERENCE<br><span class="dim">RICHARD</span></h1>
-<div class="hero-role">Directeur Commercial<br>Développement Réseau &amp; Marché Pro Mobilier &amp; Aménagement</div>
-<p class="hero-summary">Dirigeant Commercial B2B avec plus de 15 ans d'expérience en développement de marchés et structuration d'organisations commerciales, dont 5 années dans le secteur du mobilier et de l'aménagement professionnel. Expert en développement et animation de réseaux prescripteurs (architectes, décorateurs, fabricants), gestion de comptes stratégiques et pilotage P&amp;L en environnement national et international. Reconnu pour combiner vision stratégique, rigueur financière et capacité d'exécution opérationnelle.</p>
-<div class="hero-actions"><a class="btn-blk" href="mailto:terence.richard75@gmail.com">terence.richard75@gmail.com</a> <a class="btn-line" href="tel:+33658841085">+33 6 58 84 10 85</a></div>
-</div>
-<div class="hero-right">
-<div class="kpi-grid">
-<div class="kpi">
-<div data-suffix="+" data-target="15" class="kpi-n">15+</div>
-<div class="kpi-l">Années expérience B2B</div>
-</div>
-<div class="kpi">
-<div data-suffix="+" data-target="700" class="kpi-n">700+</div>
-<div class="kpi-l">Prescripteurs recrutés</div>
-</div>
-<div class="kpi">
-<div data-target="3" data-prefix="×" class="kpi-n">×3</div>
-<div class="kpi-l">CA multiplié Exta Archis</div>
-</div>
-<div class="kpi">
-<div data-suffix="%" data-target="98" class="kpi-n">98%</div>
-<div class="kpi-l">Rétention client BCD Travel</div>
-</div>
-</div>
-<div class="lang-bars">
-<div class="lang-row"><span class="lang-name">Français</span>
-<div class="lang-bar-bg">
-<div data-w="100" class="lang-bar-fill"><br></div>
-</div>
-<span class="lang-pct">Natif</span></div>
-<div class="lang-row"><span class="lang-name">Anglais</span>
-<div class="lang-bar-bg">
-<div data-w="85" class="lang-bar-fill"><br></div>
-</div>
-<span class="lang-pct">Professionnel</span></div>
-<div class="lang-row"><span class="lang-name">Allemand</span>
-<div class="lang-bar-bg">
-<div data-w="75" class="lang-bar-fill"><br></div>
-</div>
-<span class="lang-pct">Courant</span></div>
-</div>
-</div>
+  <div class="hero-watermark">TR</div>
+
+  <div>
+    <!-- ÉTIQUETTE -->
+    <div class="hero-eyebrow">CV Interactif — 2025</div>
+
+    <!-- NOM -->
+    <h1 class="hero-name">
+      TERENCE<br>
+      <span class="muted">RICHARD</span>
+    </h1>
+
+    <!-- INTITULÉ DE POSTE -->
+    <div class="hero-role">
+      Directeur Commercial — Développement Réseau<br>
+      &amp; Marché Professionnel Mobilier &amp; Aménagement
+    </div>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <p class="hero-summary">
+      Dirigeant Commercial B2B avec plus de 15 ans d'expérience en développement de marchés et structuration d'organisations commerciales, dont 5 années dans le secteur du mobilier et de l'aménagement professionnel. Expert en développement de réseaux prescripteurs (architectes, décorateurs, fabricants), gestion de comptes stratégiques et pilotage P&amp;L national et international. Reconnu pour combiner vision stratégique, rigueur financière et capacité d'exécution opérationnelle.
+    </p>
+
+    <!-- BOUTONS -->
+    <div class="hero-btns">
+      <a href="mailto:terence.richard75@gmail.com" class="btn btn-dark">terence.richard75@gmail.com</a>
+      <a href="tel:+33658841085" class="btn btn-outline">+33 6 58 84 10 85</a>
+    </div>
+  </div>
+
+  <!-- COLONNE DROITE : KPI + LANGUES -->
+  <div class="hero-right">
+
+    <!-- KPI — modifiez number / label -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-number" data-prefix="" data-target="15" data-suffix="+">15+</div>
+        <div class="kpi-label">Années d'expérience B2B</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-number" data-prefix="" data-target="700" data-suffix="+">700+</div>
+        <div class="kpi-label">Prescripteurs recrutés</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-number" data-prefix="×" data-target="3" data-suffix="">×3</div>
+        <div class="kpi-label">CA multiplié — Exta Archis</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-number" data-prefix="" data-target="98" data-suffix="%">98%</div>
+        <div class="kpi-label">Rétention client — BCD Travel</div>
+      </div>
+    </div>
+
+    <!-- LANGUES — modifiez name / data-w (0→100) / level -->
+    <div class="lang-block">
+      <div class="lang-item">
+        <span class="lang-name">Français</span>
+        <div class="lang-track"><div class="lang-fill" data-w="100"></div></div>
+        <span class="lang-level">Langue maternelle</span>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">Anglais</span>
+        <div class="lang-track"><div class="lang-fill" data-w="85"></div></div>
+        <span class="lang-level">Professionnel</span>
+      </div>
+      <div class="lang-item">
+        <span class="lang-name">Allemand</span>
+        <div class="lang-track"><div class="lang-fill" data-w="75"></div></div>
+        <span class="lang-level">Courant</span>
+      </div>
+    </div>
+
+  </div>
 </section>
+
 <!-- TICKER -->
 <div class="ticker">
-<div class="ticker-track"><span class="t-item">DÉVELOPPEMENT RÉSEAU</span><span class="t-sep"> — </span> <span class="t-item">GRANDS COMPTES</span><span class="t-sep"> — </span> <span class="t-item">P&amp;L MANAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">LEADERSHIP COMMERCIAL</span><span class="t-sep"> — </span> <span class="t-item">MOBILIER &amp; AMÉNAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">VENTE EN MODE PROJET</span><span class="t-sep"> — </span> <span class="t-item">DÉVELOPPEMENT RÉSEAU</span><span class="t-sep"> — </span> <span class="t-item">GRANDS COMPTES</span><span class="t-sep"> — </span> <span class="t-item">P&amp;L MANAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">LEADERSHIP COMMERCIAL</span><span class="t-sep"> — </span> <span class="t-item">MOBILIER &amp; AMÉNAGEMENT</span><span class="t-sep"> — </span> <span class="t-item">VENTE EN MODE PROJET</span><span class="t-sep"> — </span></div>
+  <div class="ticker-inner">
+    <span class="ticker-word">DÉVELOPPEMENT RÉSEAU</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">GRANDS COMPTES</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">P&amp;L MANAGEMENT</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">LEADERSHIP COMMERCIAL</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">MOBILIER &amp; AMÉNAGEMENT</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">VENTE EN MODE PROJET</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">STRATÉGIE B2B</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">DÉVELOPPEMENT RÉSEAU</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">GRANDS COMPTES</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">P&amp;L MANAGEMENT</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">LEADERSHIP COMMERCIAL</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">MOBILIER &amp; AMÉNAGEMENT</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">VENTE EN MODE PROJET</span><span class="ticker-sep"> — </span>
+    <span class="ticker-word">STRATÉGIE B2B</span><span class="ticker-sep"> — </span>
+  </div>
 </div>
-<!-- ── COMPÉTENCES ─────────────────────── -->
-<section id="competences" class="sw">
-<div class="slabel">Domaines d'expertise</div>
-<h2 class="stitle">COMPÉTENCES<br><span class="ghost">CLÉS</span></h2>
-<div class="skills-grid">
-<div class="sk-block">
-<div class="sk-title">Développement de réseaux &amp; canal professionnel</div>
-<div class="sk-tags"><span class="sk-tag">Réseaux prescripteurs</span> <span class="sk-tag">Partenaires distributeurs</span> <span class="sk-tag">Expansion territoriale</span> <span class="sk-tag">Coordination internationale</span> <span class="sk-tag">Vente en mode projet</span> <span class="sk-tag">Aménagement tertiaire</span> <span class="sk-tag">Mobilier collaboratif</span></div>
-</div>
-<div class="sk-block">
-<div class="sk-title">Grands comptes &amp; stratégie commerciale</div>
-<div class="sk-tags"><span class="sk-tag">KAM national &amp; international</span> <span class="sk-tag">Négociation C-level</span> <span class="sk-tag">Appels d'offres complexes</span> <span class="sk-tag">Nouveaux segments</span> <span class="sk-tag">Positionnement premium</span> <span class="sk-tag">Croissance rentable</span></div>
-</div>
-<div class="sk-block">
-<div class="sk-title">Pilotage performance &amp; gouvernance</div>
-<div class="sk-tags"><span class="sk-tag">P&amp;L complet</span> <span class="sk-tag">Marges &amp; EBITDA</span> <span class="sk-tag">Pipeline &amp; forecast</span> <span class="sk-tag">KPI &amp; reporting</span> <span class="sk-tag">CRM &amp; process</span> <span class="sk-tag">Coordination transverse</span></div>
-</div>
-<div class="sk-block">
-<div class="sk-title">Leadership &amp; organisation</div>
-<div class="sk-tags"><span class="sk-tag">Direction d'équipes</span> <span class="sk-tag">Recrutement &amp; talents</span> <span class="sk-tag">Culture de performance</span> <span class="sk-tag">Management multi-interlocuteurs</span> <span class="sk-tag">Coordination internationale</span></div>
-</div>
-</div>
+
+<!-- ============================================================
+     SECTION : COMPÉTENCES CLÉS
+     Pour modifier : ajoutez / retirez des .skill-card
+     ============================================================ -->
+<section class="section bg-white" id="competences">
+  <div class="section-head reveal">
+    <div class="label">Domaines d'expertise</div>
+    <h2 class="section-title">COMPÉTENCES<br><span class="ghost">CLÉS</span></h2>
+  </div>
+  <div class="skills-grid reveal">
+
+    <!-- BLOC 1 -->
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">Développement de réseaux &amp; canal professionnel</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Structuration réseaux professionnels nationaux</span>
+        <span class="skill-tag">Animation réseaux prescripteurs</span>
+        <span class="skill-tag">Partenaires distributeurs</span>
+        <span class="skill-tag">Acquisition B2B stratégique</span>
+        <span class="skill-tag">Expansion territoriale France</span>
+        <span class="skill-tag">Coordination internationale</span>
+        <span class="skill-tag">Vente en mode projet</span>
+        <span class="skill-tag">Aménagement tertiaire</span>
+        <span class="skill-tag">Mobilier collaboratif</span>
+      </div>
+    </div>
+
+    <!-- BLOC 2 -->
+    <div class="skill-card">
+      <div class="skill-icon">🎯</div>
+      <div class="skill-name">Grands comptes &amp; stratégie commerciale</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Comptes stratégiques nationaux &amp; internationaux</span>
+        <span class="skill-tag">Négociation à forte valeur ajoutée</span>
+        <span class="skill-tag">Appels d'offres complexes</span>
+        <span class="skill-tag">Déploiement stratégies commerciales</span>
+        <span class="skill-tag">Nouveaux segments de marché</span>
+        <span class="skill-tag">Croissance rentable</span>
+        <span class="skill-tag">Positionnement premium</span>
+      </div>
+    </div>
+
+    <!-- BLOC 3 -->
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">Pilotage performance &amp; gouvernance</div>
+      <div class="skill-tags">
+        <span class="skill-tag">P&amp;L complet</span>
+        <span class="skill-tag">Marges &amp; EBITDA</span>
+        <span class="skill-tag">Pipeline &amp; forecast</span>
+        <span class="skill-tag">Définition &amp; suivi KPI</span>
+        <span class="skill-tag">Reporting direction</span>
+        <span class="skill-tag">Structuration CRM</span>
+        <span class="skill-tag">Process commerciaux</span>
+        <span class="skill-tag">Coordination transverse</span>
+      </div>
+    </div>
+
+    <!-- BLOC 4 -->
+    <div class="skill-card">
+      <div class="skill-icon">👥</div>
+      <div class="skill-name">Leadership &amp; organisation</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Direction d'équipes commerciales</span>
+        <span class="skill-tag">Organisations en croissance</span>
+        <span class="skill-tag">Recrutement &amp; développement talents</span>
+        <span class="skill-tag">Culture de performance</span>
+        <span class="skill-tag">Management multi-interlocuteurs</span>
+        <span class="skill-tag">Coordination internationale</span>
+      </div>
+    </div>
+
+  </div>
 </section>
-<!-- ── EXPÉRIENCES ────────────────────── -->
-<section id="experiences" class="sw alt">
-<div class="slabel">Parcours professionnel</div>
-<h2 class="stitle">EXPÉRIENCES<br><span class="ghost">PROFESSIONNELLES</span></h2>
-<div class="exp-list">
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">2021 — Aujourd'hui</div>
-<div class="exp-company">EXTA ARCHIS</div>
-<div class="exp-sector">Distribution de Mobilier</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Fondateur &amp; Directeur Général — France</div>
-<ul class="exp-bullets">
-<li>Définition de la stratégie commerciale nationale et du positionnement B2B</li>
-<li>Prospection et développement d'un réseau de plus de 700 architectes et décorateurs d'intérieur, structuré comme canal indirect commissionné</li>
-<li>Développement et management d'un écosystème de 130 partenaires fournisseurs européens</li>
-<li>Mise en place d'une gouvernance commerciale structurée : CRM, segmentation réseau, pilotage du pipeline, forecast et KPI</li>
-<li>Coordination omnicanale entre partenaires, prescripteurs et fonctions support</li>
-<li>Optimisation du positionnement produit et de la stratégie tarifaire</li>
-<li>Responsabilité complète du P&amp;L et pilotage de la rentabilité</li>
-</ul>
-<div class="exp-result"><strong>Résultats :</strong> Transformation réussie B2C → B2B • <strong>700+ prescripteurs</strong> inscrits • Solution B2B premium clé en main • CA <strong>×3</strong> • Marge brute <strong>+26%</strong></div>
-</div>
-</div>
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">2018 — 2020</div>
-<div class="exp-company">WORKFORCE LOGIQ</div>
-<div class="exp-sector">VMS &amp; MSP Solution</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Directeur Commercial — France</div>
-<ul class="exp-bullets">
-<li>Déploiement stratégique de l'offre sur le marché français</li>
-<li>Ciblage et développement de comptes stratégiques (CAC 40 / SBF 250)</li>
-<li>Pilotage de cycles de vente complexes multi-décideurs</li>
-<li>Négociation contractuelle et structuration financière des deals</li>
-<li>Reporting et projections de performance auprès du management international</li>
-</ul>
-<div class="exp-result"><strong>Résultats :</strong> Contrat stratégique signé à <strong>15 M€</strong> • EBITDA projeté : <strong>500 K€</strong></div>
-</div>
-</div>
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">2016 — 2017</div>
-<div class="exp-company">ELIOR FRANCE</div>
-<div class="exp-sector">Enterprise Catering</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Directeur des Ventes — France / Paris</div>
-<ul class="exp-bullets">
-<li>Management d'une équipe commerciale nationale (4 FTEs)</li>
-<li>Déploiement de la stratégie de développement B2B</li>
-<li>Négociation de comptes stratégiques</li>
-<li>Pilotage de la rentabilité contractuelle</li>
-</ul>
-<div class="exp-result"><strong>Résultats :</strong> <strong>430 K€</strong> de CA signé sur la période</div>
-</div>
-</div>
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">2011 — 2015</div>
-<div class="exp-company">BCD TRAVEL</div>
-<div class="exp-sector">Business Travel</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Directeur de l'Account Management — France / Paris</div>
-<ul class="exp-bullets">
-<li>Direction des équipes commerciales et comptes clés à l'échelle nationale (10 FTEs)</li>
-<li>Responsabilité complète du P&amp;L France</li>
-<li>Pilotage de la stratégie de croissance, rétention et upsell</li>
-<li>Conduite d'appels d'offres nationaux et internationaux</li>
-<li>Reporting auprès de la direction générale</li>
-</ul>
-<div class="exp-result"><strong>Résultats :</strong> +25% de croissance → <strong>300 M€</strong> de volume géré • <strong>98%</strong> de rétention client • +<strong>390 K€</strong> EBITDA</div>
-</div>
-</div>
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">2002 — 2011</div>
-<div class="exp-company">CWT</div>
-<div class="exp-sector">Business Travel</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Directeur Comptes Stratégiques Internationaux (2009–2011)<br>Responsable Comptes Stratégiques (2002–2008)</div>
-<ul class="exp-bullets">
-<li>Gestion de portefeuilles grands comptes nationaux et internationaux</li>
-<li>Définition et mise en œuvre des stratégies globales de comptes pour stimuler une croissance rentable et favoriser la fidélisation long terme</li>
-<li>Responsabilité du P&amp;L global : stratégie tarifaire, optimisation contractuelle et performance des marges</li>
-<li>Management d'équipes internationales jusqu'à 12 ETP répartis sur 13 pays</li>
-<li>Pilotage d'appels d'offres internationaux complexes (RFP) et négociations au niveau exécutif</li>
-<li>Développement et commercialisation de prestations de conseil à forte valeur ajoutée</li>
-</ul>
-<div class="exp-result"><strong>Résultats :</strong> Portefeuilles jusqu'à <strong>100 M€</strong> • Portfolio multinational 13 pays : <strong>36 → 45 M€</strong> • <strong>100%</strong> de rétention client</div>
-</div>
-</div>
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">2000 — 2002</div>
-<div class="exp-company">HAYS DX</div>
-<div class="exp-sector">Livraison Express</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Responsable des Ventes</div>
-<ul class="exp-bullets">
-<li>Développement commercial et gestion du portefeuille clients</li>
-</ul>
-</div>
-</div>
-<div class="exp-item">
-<div class="exp-meta">
-<div class="exp-period">1997 — 2000</div>
-<div class="exp-company">DECATHLON</div>
-<div class="exp-sector">Grande Distribution Sport</div>
-</div>
-<div class="exp-content">
-<div class="exp-role">Chef de Rayon</div>
-<ul class="exp-bullets">
-<li>Management d'un rayon, animation commerciale et gestion des stocks</li>
-</ul>
-</div>
-</div>
-</div>
+
+<!-- ============================================================
+     SECTION : EXPÉRIENCES PROFESSIONNELLES
+     Pour modifier : ajoutez / retirez des .exp-row
+     ============================================================ -->
+<section class="section bg-light" id="experiences">
+  <div class="section-head reveal">
+    <div class="label">Parcours professionnel</div>
+    <h2 class="section-title">EXPÉRIENCES<br><span class="ghost">PROFESSIONNELLES</span></h2>
+  </div>
+
+  <div class="exp-list">
+
+    <!-- ─ POSTE 1 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">2021 — Aujourd'hui</div>
+        <div class="exp-co">EXTA ARCHIS</div>
+        <div class="exp-sector">Distribution de Mobilier</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Fondateur &amp; Directeur Général — France</div>
+        <ul class="exp-bullets">
+          <li>Définition de la stratégie commerciale nationale et du positionnement B2B</li>
+          <li>Prospection et développement d'un réseau de plus de 700 architectes et décorateurs d'intérieur, structuré comme canal indirect commissionné</li>
+          <li>Développement et management d'un écosystème de 130 partenaires fournisseurs européens</li>
+          <li>Mise en place d'une gouvernance commerciale structurée : CRM, segmentation réseau, pilotage du pipeline, forecast et KPI</li>
+          <li>Coordination omnicanale entre partenaires, prescripteurs et fonctions support</li>
+          <li>Optimisation du positionnement produit et de la stratégie tarifaire</li>
+          <li>Responsabilité complète du P&amp;L et pilotage de la rentabilité</li>
+        </ul>
+        <div class="exp-result">
+          <strong>Résultats :</strong> Transformation réussie B2C → B2B &bull; <strong>700+ prescripteurs</strong> inscrits &bull; Positionnement B2B premium clé en main &bull; CA <strong>×3</strong> &bull; Marge brute <strong>+26%</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ POSTE 2 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">2018 — 2020</div>
+        <div class="exp-co">WORKFORCE LOGIQ</div>
+        <div class="exp-sector">VMS &amp; MSP Solution</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Directeur Commercial — France</div>
+        <ul class="exp-bullets">
+          <li>Déploiement stratégique de l'offre sur le marché français</li>
+          <li>Ciblage et développement de comptes stratégiques (CAC 40 / SBF 250)</li>
+          <li>Pilotage de cycles de vente complexes multi-décideurs</li>
+          <li>Négociation contractuelle et structuration financière des deals</li>
+          <li>Reporting et projections de performance auprès du management international</li>
+        </ul>
+        <div class="exp-result">
+          <strong>Résultats :</strong> Contrat stratégique signé à <strong>15 M€</strong> &bull; EBITDA projeté : <strong>500 K€</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ POSTE 3 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">2016 — 2017</div>
+        <div class="exp-co">ELIOR FRANCE</div>
+        <div class="exp-sector">Enterprise Catering</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Directeur des Ventes — France / Paris</div>
+        <ul class="exp-bullets">
+          <li>Management d'une équipe commerciale nationale (4 FTEs)</li>
+          <li>Déploiement de la stratégie de développement B2B</li>
+          <li>Négociation de comptes stratégiques</li>
+          <li>Pilotage de la rentabilité contractuelle</li>
+        </ul>
+        <div class="exp-result">
+          <strong>Résultats :</strong> <strong>430 K€</strong> de CA signé sur la période
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ POSTE 4 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">2011 — 2015</div>
+        <div class="exp-co">BCD TRAVEL</div>
+        <div class="exp-sector">Business Travel</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Directeur de l'Account Management — France / Paris</div>
+        <ul class="exp-bullets">
+          <li>Direction des équipes commerciales et comptes clés à l'échelle nationale (10 FTEs)</li>
+          <li>Responsabilité complète du P&amp;L France</li>
+          <li>Pilotage de la stratégie de croissance, rétention et upsell</li>
+          <li>Conduite d'appels d'offres nationaux et internationaux</li>
+          <li>Reporting auprès de la direction générale</li>
+        </ul>
+        <div class="exp-result">
+          <strong>Résultats :</strong> +25% de croissance → <strong>300 M€</strong> de volume géré &bull; <strong>98%</strong> de rétention client &bull; +<strong>390 K€</strong> EBITDA
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ POSTE 5 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">2002 — 2011</div>
+        <div class="exp-co">CWT</div>
+        <div class="exp-sector">Business Travel</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">
+          Directeur Comptes Stratégiques Internationaux (2009–2011)<br>
+          Responsable Comptes Stratégiques (2002–2008)
+        </div>
+        <ul class="exp-bullets">
+          <li>Gestion de portefeuilles grands comptes nationaux et internationaux</li>
+          <li>Définition et mise en œuvre des stratégies globales de comptes et plans d'affaires pour stimuler une croissance rentable et favoriser la fidélisation long terme</li>
+          <li>Responsabilité du P&amp;L global : stratégie tarifaire, optimisation contractuelle et performance des marges</li>
+          <li>Management d'équipes internationales jusqu'à 12 ETP répartis sur 13 pays</li>
+          <li>Pilotage d'appels d'offres internationaux complexes (RFP) et négociations contractuelles au niveau exécutif</li>
+          <li>Développement et commercialisation de prestations de conseil et d'accompagnement à forte valeur ajoutée</li>
+        </ul>
+        <div class="exp-result">
+          <strong>Résultats :</strong> Portefeuilles jusqu'à <strong>100 M€</strong> &bull; Portfolio multinational 13 pays : <strong>36 → 45 M€</strong> &bull; <strong>100%</strong> de rétention client &bull; Amélioration rentabilité via self-booking, conseil stratégique et optimisation contractuelle
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ POSTE 6 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">2000 — 2002</div>
+        <div class="exp-co">HAYS DX</div>
+        <div class="exp-sector">Livraison Express</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Responsable des Ventes</div>
+        <ul class="exp-bullets">
+          <li>Développement commercial et gestion du portefeuille clients</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ─ POSTE 7 ─ -->
+    <div class="exp-row reveal">
+      <div class="exp-left">
+        <div class="exp-period">1997 — 2000</div>
+        <div class="exp-co">DECATHLON</div>
+        <div class="exp-sector">Grande Distribution Sport</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-role">Chef de Rayon</div>
+        <ul class="exp-bullets">
+          <li>Management d'un rayon, animation commerciale et gestion des stocks</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
 </section>
-<!-- ── FORMATION ──────────────────────── -->
-<section id="formation" class="sw dk">
-<div class="slabel lt">Formation académique</div>
-<h2 class="stitle wh">FORMATION<br><span class="ghost">&amp; DIPLÔMES</span></h2>
-<div class="edu-grid">
-<div class="edu-item">
-<div class="edu-year">2008 — 2010</div>
-<div class="edu-school">ESSEC BUSINESS SCHOOL</div>
-<div class="edu-degree">Executive Master's Degree<br>Strategy &amp; Management of International Business</div>
-</div>
-<div class="edu-item">
-<div class="edu-year">1995 — 1997</div>
-<div class="edu-school">HTW DRESDEN</div>
-<div class="edu-degree">Diplom Kaufmann — International Business Studies<br>Programme Erasmus</div>
-</div>
-<div class="edu-item">
-<div class="edu-year">1992 — 1997</div>
-<div class="edu-school">UNIVERSITÉ LE HAVRE NORMANDIE</div>
-<div class="edu-degree">Maîtrise — International Business Studies</div>
-</div>
-</div>
+
+<!-- ============================================================
+     SECTION : FORMATION  (bandeau noir)
+     Pour modifier : ajoutez / retirez des .edu-card
+     ============================================================ -->
+<section class="section bg-black" id="formation">
+  <div class="section-head reveal">
+    <div class="label on-dark">Formation académique</div>
+    <h2 class="section-title on-dark">FORMATION<br><span class="ghost">& DIPLÔMES</span></h2>
+  </div>
+  <div class="edu-grid reveal">
+
+    <!-- DIPLÔME 1 -->
+    <div class="edu-card">
+      <div class="edu-year">2008 — 2010</div>
+      <div class="edu-school">ESSEC BUSINESS SCHOOL</div>
+      <div class="edu-degree">Executive Master's Degree<br>Strategy &amp; Management of International Business</div>
+    </div>
+
+    <!-- DIPLÔME 2 -->
+    <div class="edu-card">
+      <div class="edu-year">1995 — 1997</div>
+      <div class="edu-school">HTW DRESDEN</div>
+      <div class="edu-degree">Diplom Kaufmann — International Business Studies<br>Programme Erasmus</div>
+    </div>
+
+    <!-- DIPLÔME 3 -->
+    <div class="edu-card">
+      <div class="edu-year">1992 — 1997</div>
+      <div class="edu-school">UNIVERSITÉ LE HAVRE NORMANDIE</div>
+      <div class="edu-degree">Maîtrise — International Business Studies</div>
+    </div>
+
+  </div>
 </section>
-<!-- ── OUTILS ─────────────────────────── -->
-<section id="outils" class="sw">
-<div class="slabel">Informatique &amp; outils</div>
-<h2 class="stitle">STACK &amp;<br><span class="ghost">OUTILS</span></h2>
-<div class="tools-row">
-<div class="tool">Pack Office</div>
-<div class="tool">Google Suite</div>
-<div class="tool">Airtable</div>
-<div class="tool">Notion</div>
-<div class="tool">Shopify</div>
-<div class="tool">LinkedIn Automation</div>
-<div class="tool">ChatGPT &amp; IA Générative</div>
-</div>
+
+<!-- ============================================================
+     SECTION : OUTILS &amp; INFORMATIQUE
+     Pour modifier : ajoutez / retirez des .tool-pill
+     ============================================================ -->
+<section class="section bg-white" id="outils">
+  <div class="section-head reveal">
+    <div class="label">Informatique &amp; outils</div>
+    <h2 class="section-title">OUTILS &amp;<br><span class="ghost">STACK</span></h2>
+  </div>
+  <div class="tools-wrap reveal">
+    <div class="tool-pill">Pack Office</div>
+    <div class="tool-pill">Google Suite</div>
+    <div class="tool-pill">Airtable</div>
+    <div class="tool-pill">Notion</div>
+    <div class="tool-pill">Shopify</div>
+    <div class="tool-pill">LinkedIn Automation</div>
+    <div class="tool-pill">ChatGPT &amp; IA Générative</div>
+  </div>
 </section>
-<!-- ── CENTRES D'INTÉRÊT ──────────────── -->
-<section class="sw dk">
-<div class="slabel lt">Centres d'intérêt</div>
-<h2 class="stitle wh">PASSIONS &amp;<br><span class="ghost">LOISIRS</span></h2>
-<div class="interests-grid">
-<div class="interest-item">
-<div class="int-icon">📷</div>
-<div class="int-label">PHOTOGRAPHIE</div>
-</div>
-<div class="interest-item">
-<div class="int-icon">🔨</div>
-<div class="int-label">BRICOLAGE</div>
-</div>
-<div class="interest-item">
-<div class="int-icon">🏃</div>
-<div class="int-label">RUNNING</div>
-</div>
-</div>
+
+<!-- ============================================================
+     SECTION : CENTRES D'INTÉRÊT  (bandeau noir)
+     Pour modifier : ajoutez / retirez des .interest-card
+     ============================================================ -->
+<section class="section bg-black">
+  <div class="section-head reveal">
+    <div class="label on-dark">En dehors du bureau</div>
+    <h2 class="section-title on-dark">CENTRES<br><span class="ghost">D'INTÉRÊT</span></h2>
+  </div>
+  <div class="interests-grid reveal">
+    <div class="interest-card"><div class="interest-icon">📷</div><div class="interest-name">PHOTOGRAPHIE</div></div>
+    <div class="interest-card"><div class="interest-icon">🔨</div><div class="interest-name">BRICOLAGE</div></div>
+    <div class="interest-card"><div class="interest-icon">🏃</div><div class="interest-name">RUNNING</div></div>
+  </div>
 </section>
-<!-- ── CONTACT ────────────────────────── -->
-<div id="contact" class="cband">
-<div>
-<div class="cband-tag">Disponible pour un entretien</div>
-<h2 class="cband-title">TRAVAILLONS<br><span>ENSEMBLE</span></h2>
+
+<!-- ============================================================
+     SECTION : CONTACT  (bandeau noir)
+     Pour modifier : changez les href et les .contact-val
+     ============================================================ -->
+<div class="contact-band" id="contact">
+  <div>
+    <div class="contact-pretitle">Disponible pour un entretien</div>
+    <h2 class="contact-title">TRAVAILLONS<br><span>ENSEMBLE</span></h2>
+    <div class="contact-btns">
+      <a href="mailto:terence.richard75@gmail.com" class="btn btn-white">Envoyer un email</a>
+      <a href="https://linkedin.com/in/terencerichard" target="_blank" class="btn btn-outline-white">LinkedIn →</a>
+    </div>
+  </div>
+  <div class="contact-rows">
+    <div class="contact-row">
+      <span class="contact-key">Téléphone</span>
+      <a href="tel:+33658841085" class="contact-val">+33 6 58 84 10 85</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-key">Email</span>
+      <a href="mailto:terence.richard75@gmail.com" class="contact-val">terence.richard75@gmail.com</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-key">LinkedIn</span>
+      <a href="https://linkedin.com/in/terencerichard" target="_blank" class="contact-val">linkedin.com/in/terencerichard</a>
+    </div>
+    <div class="contact-row">
+      <span class="contact-key">Localisation</span>
+      <span class="contact-val">Paris, France</span>
+    </div>
+  </div>
 </div>
-<div class="cband-rows">
-<div class="cband-row"><span class="cband-key">Téléphone</span><a class="cband-val" href="tel:+33658841085">+33 6 58 84 10 85</a></div>
-<div class="cband-row"><span class="cband-key">Email</span><a class="cband-val" href="mailto:terence.richard75@gmail.com">terence.richard75@gmail.com</a></div>
-<div class="cband-row"><span class="cband-key">LinkedIn</span><a class="cband-val" href="https://linkedin.com/in/terencerichard" target="_blank">linkedin.com/in/terencerichard</a></div>
-<div class="cband-row"><span class="cband-key">Localisation</span><span class="cband-val">Paris, France</span></div>
-</div>
-</div>
-<!-- FOOTER --><footer>
-<div class="f-logo">TERENCE RICHARD</div>
-<div class="f-copy">© 2025</div>
-<div class="f-links"><a href="mailto:terence.richard75@gmail.com">Email</a> <a href="tel:+33658841085">Téléphone</a> <a href="https://linkedin.com/in/terencerichard" target="_blank">LinkedIn</a></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">TERENCE RICHARD</div>
+  <div class="footer-copy">© 2025 — CV Interactif</div>
+  <div class="footer-links">
+    <a href="mailto:terence.richard75@gmail.com">Email</a>
+    <a href="tel:+33658841085">Téléphone</a>
+    <a href="https://linkedin.com/in/terencerichard" target="_blank">LinkedIn</a>
+  </div>
 </footer>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ── Nav scroll ───────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+/* ── Hamburger ───────────────────────── */
+const burger   = document.getElementById('burger');
+const mobileNv = document.getElementById('mobile-nav');
+function closeMobileNav() {
+  mobileNv.classList.remove('open');
+  burger.classList.remove('active');
+  document.body.style.overflow = '';
+}
+burger.addEventListener('click', () => {
+  const isOpen = mobileNv.classList.toggle('open');
+  burger.classList.toggle('active', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+/* ── Reveal on scroll ────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── Lang bars ───────────────────────── */
+const fillObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.lang-fill').forEach(bar => {
+      bar.style.width = bar.dataset.w + '%';
+    });
+    fillObs.unobserve(e.target);
+  });
+}, { threshold: 0.3 });
+const langBlock = document.querySelector('.lang-block');
+if (langBlock) fillObs.observe(langBlock);
+
+/* ── KPI counters ────────────────────── */
+document.querySelectorAll('.kpi-card').forEach(card => {
+  let done = false;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting || done) return;
+      done = true;
+      const el     = e.target.querySelector('.kpi-number');
+      const target = +(el.dataset.target || 0);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      let t0 = null;
+      const dur = 1300;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        const p = Math.min((ts - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      obs.unobserve(card);
+    });
+  }, { threshold: 0.5 });
+  obs.observe(card);
+});
+</script>
+
+</body>
+</html>
